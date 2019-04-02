@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/projectriff/go-ape/_apis/build/status/pivotal.go-ape?branchName=master)](https://dev.azure.com/projectriff/go-ape/_build/latest?definitionId=6&branchName=master)
+
 # go-ape
 
 go-ape provides some file utilities:
