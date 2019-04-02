@@ -41,3 +41,5 @@ steps:
 - script: go test -v ./...
   workingDirectory: '$(modulePath)'
   displayName: 'Run tests'
+  env:
+    GO111MODULE: on
