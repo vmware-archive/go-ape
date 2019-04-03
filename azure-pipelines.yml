@@ -38,8 +38,12 @@ steps:
   workingDirectory: '$(modulePath)'
   displayName: 'Get dependencies, then build'
 
-- script: go test -v ./...
+- script: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
   workingDirectory: '$(modulePath)'
   displayName: 'Run tests'
   env:
     GO111MODULE: on
+
+- script: bash <(curl https://codecov.io/bash)
+  workingDirectory: '$(modulePath)'
+  displayName: 'codecov'
