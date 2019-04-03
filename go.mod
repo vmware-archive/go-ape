@@ -1,4 +1,4 @@
-module go-ape
+module github.com/pivotal/go-ape
 
 go 1.11
 
