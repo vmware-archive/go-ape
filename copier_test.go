@@ -19,8 +19,8 @@ package fileutils_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"go-ape"
-	"go-ape/test_support"
+	"github.com/pivotal/go-ape"
+	"github.com/pivotal/go-ape/test_support"
 	"io/ioutil"
 	"os"
 	"path/filepath"
