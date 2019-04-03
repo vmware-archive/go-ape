@@ -1,3 +1,5 @@
+[![GoDoc](https://godoc.org/github.com/pivotal/image-relocation?status.svg)](https://godoc.org/github.com/pivotal/go-ape)
+[![Go Report Card](https://goreportcard.com/badge/pivotal/image-relocation)](https://goreportcard.com/report/pivotal/go-ape)
 [![Build Status](https://dev.azure.com/projectriff/go-ape/_apis/build/status/pivotal.go-ape?branchName=master)](https://dev.azure.com/projectriff/go-ape/_build/latest?definitionId=6&branchName=master)
 
 # go-ape
