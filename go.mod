@@ -1,6 +1,4 @@
-module go-ape
-
-go 1.11
+module github.com/pivotal/go-ape
 
 require (
 	github.com/onsi/ginkgo v1.8.0
