@@ -23,7 +23,7 @@ jobs:
     modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
   steps:
-  - script: |
+  - bash: |
       mkdir -p '$(GOBIN)'
       mkdir -p '$(GOPATH)/pkg'
       mkdir -p '$(modulePath)'
@@ -44,7 +44,7 @@ jobs:
     workingDirectory: '$(modulePath)'
     displayName: 'Get dependencies'
 
-  - script: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
+  - bash: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
     workingDirectory: '$(modulePath)'
     displayName: 'Run tests'
     env:
