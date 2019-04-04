@@ -1,0 +1,9 @@
+{
+  "headerFile": "./license-header.txt",
+  "style": "SlashStar",
+  "includes": ["**/*.go"],
+  "excludes": ["**/mocks/*.go"],
+  "data": {
+    "Owner": "Pivotal Software, Inc."
+  }
+}
