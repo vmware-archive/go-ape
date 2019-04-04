@@ -17,12 +17,12 @@
 package fileutils_test
 
 import (
-	"go-ape"
-	"go-ape/test_support"
-	"os"
-	"path/filepath"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/pivotal/go-ape"
+	"github.com/pivotal/go-ape/test_support"
+	"os"
+	"path/filepath"
 )
 
 var _ = Describe("IsAbsFile", func() {

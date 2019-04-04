@@ -19,7 +19,7 @@ package fileutils_test
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"go-ape"
+	"github.com/pivotal/go-ape"
 )
 
 var _ = Describe("StartsWithHomeDirAsTilde", func() {
