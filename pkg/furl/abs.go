@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fileutils
+package furl
 
 import (
 	"fmt"

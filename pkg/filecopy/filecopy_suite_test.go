@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fileutils_test
+package filecopy_test
 
 import (
 	"testing"
@@ -25,5 +25,5 @@ import (
 
 func TestFileutils(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Fileutils Suite")
+	RunSpecs(t, "Filecopy Suite")
 }

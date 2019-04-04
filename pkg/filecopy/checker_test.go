@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package fileutils_test
+package filecopy_test
 
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/pivotal/go-ape"
-	"github.com/pivotal/go-ape/test_support"
+	"github.com/pivotal/go-ape/pkg/filecopy"
+	"github.com/pivotal/go-ape/pkg/test_support"
 )
 
 var _ = Describe("Checker", func() {
 	var (
-		checker fileutils.Checker
+		checker filecopy.Checker
 		tempDir string
 		path    string
 		exists  bool
 	)
 
 	BeforeEach(func() {
-		checker = fileutils.NewChecker()
+		checker = filecopy.NewChecker()
 		tempDir = test_support.CreateTempDir()
 	})
 

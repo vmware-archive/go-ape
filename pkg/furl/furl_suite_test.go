@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     https://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-package fileutils
+package furl_test
 
 import (
-	"net/url"
-	"path"
-	"path/filepath"
+	"testing"
+
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-// Dir returns the directory portion of the given file.
-func Dir(file string) (string, error) {
-	if filepath.IsAbs(file) {
-		return filepath.Dir(file), nil
-	}
-	u, err := url.Parse(file)
-	if err != nil {
-		return "", err
-	}
-	if u.IsAbs() {
-		u.Path = path.Dir(u.Path)
-		return u.String(), nil
-	}
-	return filepath.Dir(file), nil
+func TestFileutils(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "FURL Suite")
 }
