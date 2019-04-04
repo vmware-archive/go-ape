@@ -34,7 +34,7 @@ jobs:
       echo '##vso[task.prependpath]$(GOROOT)/bin'
     displayName: 'Set up the Go workspace'
 
-  - script: |
+  - bash: |
       go version
       go get -v -t -d ./...
       if [ -f Gopkg.toml ]; then
