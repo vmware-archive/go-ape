@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-// package fileutils contains file manipulation functions.
-package fileutils
+// package furl contains functions that treat local files and urls uniformly.
+package furl

@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package fileutils_test
+package furl_test
 
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/pivotal/go-ape"
-	"github.com/pivotal/go-ape/test_support"
+	"github.com/pivotal/go-ape/pkg/furl"
+	"github.com/pivotal/go-ape/pkg/test_support"
 
 	"path/filepath"
 )
@@ -33,7 +33,7 @@ var _ = Describe("Dir", func() {
 	)
 
 	JustBeforeEach(func() {
-		dir, err = fileutils.Dir(file)
+		dir, err = furl.Dir(file)
 	})
 
 	Context("when file is a URL", func() {

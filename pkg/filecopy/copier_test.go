@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package fileutils_test
+package filecopy_test
 
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/pivotal/go-ape"
-	"github.com/pivotal/go-ape/test_support"
+	"github.com/pivotal/go-ape/pkg/filecopy"
+	"github.com/pivotal/go-ape/pkg/test_support"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -29,7 +29,7 @@ import (
 var _ = Describe("Copier", func() {
 	var (
 		symlinkSupported bool
-		copier           fileutils.Copier
+		copier           filecopy.Copier
 		tempDir          string
 		source           string
 		target           string
@@ -44,8 +44,8 @@ var _ = Describe("Copier", func() {
 	}
 
 	BeforeEach(func() {
-		checker := fileutils.NewChecker() // use a real checker to avoid mock setup
-		copier = fileutils.NewCopier(ioutil.Discard, checker)
+		checker := filecopy.NewChecker() // use a real checker to avoid mock setup
+		copier = filecopy.NewCopier(ioutil.Discard, checker)
 
 		tempDir = test_support.CreateTempDir()
 	})
@@ -375,9 +375,9 @@ var _ = Describe("Copier", func() {
 			})
 
 			It("should return a suitable error", func() {
-				err, ok := err.(fileutils.FileError)
+				err, ok := err.(filecopy.FileError)
 				Expect(ok).To(BeTrue())
-				Expect(err.ErrorId).To(Equal(fileutils.ErrFileNotFound))
+				Expect(err.ErrorId).To(Equal(filecopy.ErrFileNotFound))
 			})
 		})
 	})

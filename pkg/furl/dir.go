@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-Present Pivotal Software, Inc. All rights reserved.
+ * Copyright 2018-Present Pivotal Software, Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,31 +14,26 @@
  * limitations under the License.
  */
 
-package fileutils
+package furl
 
-import "fmt"
+import (
+	"net/url"
+	"path"
+	"path/filepath"
+)
 
-type ErrorId string
-
-type FileError struct {
-	ErrorId ErrorId
-	Cause   error
-}
-
-func newFileError(id ErrorId, cause error) FileError {
-	return FileError{
-		ErrorId: id,
-		Cause:   cause,
+// Dir returns the directory portion of the given file.
+func Dir(file string) (string, error) {
+	if filepath.IsAbs(file) {
+		return filepath.Dir(file), nil
 	}
-}
-
-func newFileErrorf(tag ErrorId, format string, insert ...interface{}) error {
-	return FileError{
-		ErrorId: tag,
-		Cause:   fmt.Errorf(format, insert...),
+	u, err := url.Parse(file)
+	if err != nil {
+		return "", err
 	}
-}
-
-func (fe FileError) Error() string {
-	return fmt.Sprintf("fileutils error: %s: %v", fe.ErrorId, fe.Cause)
+	if u.IsAbs() {
+		u.Path = path.Dir(u.Path)
+		return u.String(), nil
+	}
+	return filepath.Dir(file), nil
 }

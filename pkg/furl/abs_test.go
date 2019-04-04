@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package fileutils_test
+package furl_test
 
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/pivotal/go-ape"
-	"github.com/pivotal/go-ape/test_support"
+	"github.com/pivotal/go-ape/pkg/furl"
+	"github.com/pivotal/go-ape/pkg/test_support"
 	"os"
 	"path/filepath"
 )
@@ -35,7 +35,7 @@ var _ = Describe("IsAbsFile", func() {
 	)
 
 	JustBeforeEach(func() {
-		absolute, canonicalPath, err = fileutils.IsAbsFile(path)
+		absolute, canonicalPath, err = furl.IsAbsFile(path)
 	})
 
 	checkAbsolute := func() {
@@ -142,7 +142,7 @@ var _ = Describe("AbsFile", func() {
 	})
 
 	JustBeforeEach(func() {
-		absFile, err = fileutils.AbsFile(path, baseDir)
+		absFile, err = furl.AbsFile(path, baseDir)
 	})
 
 	checkAbsolute := func() {

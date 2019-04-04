@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package fileutils_test
+package furl_test
 
 import (
 	"fmt"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/pivotal/go-ape"
-	"github.com/pivotal/go-ape/test_support"
+	"github.com/pivotal/go-ape/pkg/furl"
+	"github.com/pivotal/go-ape/pkg/test_support"
 	"net"
 	"net/url"
 	"os"
@@ -39,7 +39,7 @@ var _ = Describe("Read", func() {
 	)
 
 	JustBeforeEach(func() {
-		content, err = fileutils.Read(file, base)
+		content, err = furl.Read(file, base)
 	})
 
 	Context("when file is a URL", func() {
@@ -162,7 +162,7 @@ var _ = Describe("ReadUrl", func() {
 	It("reads file URLs", func() {
 		resourceUrl, _ := url.Parse(test_support.FileURL(test_support.AbsolutePath("fixtures/file.txt")))
 
-		result, err := fileutils.ReadUrl(resourceUrl, timeout)
+		result, err := furl.ReadUrl(resourceUrl, timeout)
 
 		Expect(err).NotTo(HaveOccurred())
 		Expect(result).To(Equal([]byte("contents")))
@@ -179,7 +179,7 @@ var _ = Describe("ReadUrl", func() {
 		}()
 		resourceUrl, _ := url.Parse(fmt.Sprintf("http://%s/%s", listener.Addr().String(), ""))
 
-		result, err := fileutils.ReadUrl(resourceUrl, timeout)
+		result, err := furl.ReadUrl(resourceUrl, timeout)
 
 		Expect(err).NotTo(HaveOccurred())
 		Expect(result).To(Equal([]byte("contents")))
@@ -193,7 +193,7 @@ var _ = Describe("ReadUrl", func() {
 		}()
 		resourceUrl, _ := url.Parse(fmt.Sprintf("http://%s/%s", resourceListener.Addr().String(), ""))
 
-		_, err := fileutils.ReadUrl(resourceUrl, timeout)
+		_, err := furl.ReadUrl(resourceUrl, timeout)
 
 		Expect(err).To(SatisfyAll(
 			Not(BeNil()),
