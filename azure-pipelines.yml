@@ -24,8 +24,8 @@ jobs:
 
   steps:
   - task: GoTool@0
-      inputs:
-        version: 1.12
+    inputs:
+      version: 1.12
   - bash: |
       mkdir -p '$(GOBIN)'
       mkdir -p '$(GOPATH)/pkg'
