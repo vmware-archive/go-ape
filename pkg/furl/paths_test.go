@@ -20,6 +20,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pivotal/go-ape/pkg/furl"
+	"os"
 )
 
 var _ = Describe("StartsWithHomeDirAsTilde", func() {
@@ -52,7 +53,7 @@ var _ = Describe("StartsWithHomeDirAsTilde", func() {
 var _ = Describe("ResolveTilde", func() {
 
 	It("resolves ~/ against current user's home directory", func() {
-		initialPath := "~/some/location"
+		initialPath := "~" + string(os.PathSeparator) + "some" + string(os.PathSeparator) +"location"
 
 		path, err := furl.ResolveTilde(initialPath)
 
