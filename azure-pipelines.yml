@@ -54,6 +54,7 @@ jobs:
       GO111MODULE: on
 
 - job: code_coverage
+  dependsOn: unit
   pool:
     vmImage: 'ubuntu-16.04'
 
