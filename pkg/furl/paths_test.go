@@ -62,6 +62,16 @@ var _ = Describe("ResolveTilde", func() {
 		Expect(path).To(HaveSuffix(initialPath[2:]))
 	})
 
+	It("resolves ~/ against current user's home directory passing in forward slash", func() {
+		initialPath := "~/some/location"
+
+		path, err := furl.ResolveTilde(initialPath)
+
+		Expect(err).NotTo(HaveOccurred())
+		Expect(path).NotTo(ContainSubstring("~"))
+		Expect(path).To(HaveSuffix("some" + string(os.PathSeparator) + "location"))
+	})
+
 	It("returns path without tilde as is", func() {
 		initialPath := "look/matilde/no/tilde"
 
