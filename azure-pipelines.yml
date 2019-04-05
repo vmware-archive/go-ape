@@ -53,6 +53,9 @@ jobs:
     env:
       GO111MODULE: on
 
+- job: code-coverage
+  pool:
+    vmImage: 'ubuntu-16.04'
   - script: bash <(curl https://codecov.io/bash)
     workingDirectory: '$(modulePath)'
     displayName: 'codecov'
