@@ -53,12 +53,7 @@ jobs:
     env:
       GO111MODULE: on
 
-- job: code_coverage
-  dependsOn: unit
-  pool:
-    vmImage: 'ubuntu-16.04'
-
-  steps:
   - script: bash <(curl https://codecov.io/bash)
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
     workingDirectory: '$(modulePath)'
     displayName: 'codecov'
