@@ -3,46 +3,57 @@
 # Add steps that test, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/go
 
-trigger:
-- master
-
-pool:
-  vmImage: 'Ubuntu-16.04'
-
 variables:
   GOBIN:  '$(GOPATH)/bin' # Go binaries path
   GOROOT: '/usr/local/go1.11' # Go installation path
   GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
   modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
-steps:
-- script: |
-    mkdir -p '$(GOBIN)'
-    mkdir -p '$(GOPATH)/pkg'
-    mkdir -p '$(modulePath)'
-    shopt -s extglob
-    shopt -s dotglob
-    mv !(gopath) '$(modulePath)'
-    echo '##vso[task.prependpath]$(GOBIN)'
-    echo '##vso[task.prependpath]$(GOROOT)/bin'
-  displayName: 'Set up the Go workspace'
+jobs:
+- job: unit
+  strategy:
+    matrix:
+      linux:
+        imageName: 'ubuntu-16.04'
+      mac:
+        imageName: 'macos-10.13'
+      windows:
+        imageName: 'vs2017-win2016'
+  pool:
+    vmImage: $(imageName)
 
-- script: |
-    go version
-    go get -v -t -d ./...
-    if [ -f Gopkg.toml ]; then
-        curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-        dep ensure
-    fi
-  workingDirectory: '$(modulePath)'
-  displayName: 'Get dependencies'
+  steps:
+  - task: GoTool@0
+    inputs:
+      version: 1.12
+  - bash: |
+      mkdir -p '$(GOBIN)'
+      mkdir -p '$(GOPATH)/pkg'
+      mkdir -p '$(modulePath)'
+      shopt -s extglob
+      shopt -s dotglob
+      mv !(gopath) '$(modulePath)'
+      echo '##vso[task.prependpath]$(GOBIN)'
+      echo '##vso[task.prependpath]$(GOROOT)/bin'
+    displayName: 'Set up the Go workspace'
 
-- script: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
-  workingDirectory: '$(modulePath)'
-  displayName: 'Run tests'
-  env:
-    GO111MODULE: on
+  - bash: |
+      go version
+      go get -v -t -d ./...
+      if [ -f Gopkg.toml ]; then
+          curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+          dep ensure
+      fi
+    workingDirectory: '$(modulePath)'
+    displayName: 'Get dependencies'
 
-- script: bash <(curl https://codecov.io/bash)
-  workingDirectory: '$(modulePath)'
-  displayName: 'codecov'
+  - bash: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
+    workingDirectory: '$(modulePath)'
+    displayName: 'Run tests'
+    env:
+      GO111MODULE: on
+
+  - script: bash <(curl https://codecov.io/bash)
+    condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+    workingDirectory: '$(modulePath)'
+    displayName: 'codecov'

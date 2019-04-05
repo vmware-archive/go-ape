@@ -20,6 +20,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pivotal/go-ape/pkg/furl"
+	"os"
 )
 
 var _ = Describe("StartsWithHomeDirAsTilde", func() {
@@ -52,13 +53,23 @@ var _ = Describe("StartsWithHomeDirAsTilde", func() {
 var _ = Describe("ResolveTilde", func() {
 
 	It("resolves ~/ against current user's home directory", func() {
-		initialPath := "~/some/location"
+		initialPath := "~" + string(os.PathSeparator) + "some" + string(os.PathSeparator) +"location"
 
 		path, err := furl.ResolveTilde(initialPath)
 
 		Expect(err).NotTo(HaveOccurred())
 		Expect(path).NotTo(ContainSubstring("~"))
 		Expect(path).To(HaveSuffix(initialPath[2:]))
+	})
+
+	It("resolves ~/ against current user's home directory passing in forward slash", func() {
+		initialPath := "~/some/location"
+
+		path, err := furl.ResolveTilde(initialPath)
+
+		Expect(err).NotTo(HaveOccurred())
+		Expect(path).NotTo(ContainSubstring("~"))
+		Expect(path).To(HaveSuffix("some" + string(os.PathSeparator) + "location"))
 	})
 
 	It("returns path without tilde as is", func() {

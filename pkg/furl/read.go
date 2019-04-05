@@ -25,6 +25,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"time"
+	"unicode"
 )
 
 // Read reads the contents of the specified file. If the file is a relative path, it is relative to base.
@@ -42,13 +43,21 @@ func readAbsFile(file string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	if u.Scheme == "" {
+	if u.Scheme == "" || isDriveLetter(u.Scheme) {
 		if !filepath.IsAbs(file) {
 			return nil, fmt.Errorf("absolute path expected instead of relative path: %s", file)
 		}
 		return ioutil.ReadFile(file)
 	}
 	return ReadUrl(u, 0)
+}
+
+func isDriveLetter(drive string) bool {
+	if len(drive) != 1 {
+		return false
+	}
+	r := []rune(drive)
+	return unicode.IsLetter(r[0])
 }
 
 func ReadUrl(url *url.URL, httpTimeout time.Duration) ([]byte, error) {
