@@ -9,51 +9,47 @@ variables:
   GOPATH: '$(system.defaultWorkingDirectory)/gopath' # Go workspace path
   modulePath: '$(GOPATH)/src/github.com/$(build.repository.name)' # Path to the module's code
 
-jobs:
-- job: unit
-  strategy:
-    matrix:
-      linux:
-        imageName: 'ubuntu-16.04'
-      mac:
-        imageName: 'macos-10.13'
-      windows:
-        imageName: 'vs2017-win2016'
-  pool:
-    vmImage: $(imageName)
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-16.04'
+    mac:
+      imageName: 'macos-10.13'
+    windows:
+      imageName: 'vs2017-win2016'
+pool:
+  vmImage: $(imageName)
 
-  steps:
-  - task: GoTool@0
-    inputs:
-      version: 1.12
-  - bash: |
-      mkdir -p '$(GOBIN)'
-      mkdir -p '$(GOPATH)/pkg'
-      mkdir -p '$(modulePath)'
-      shopt -s extglob
-      shopt -s dotglob
-      mv !(gopath) '$(modulePath)'
-      echo '##vso[task.prependpath]$(GOBIN)'
-      echo '##vso[task.prependpath]$(GOROOT)/bin'
-    displayName: 'Set up the Go workspace'
+steps:
+- task: GoTool@0
+  inputs:
+    version: 1.12
+- bash: |
+    mkdir -p '$(GOBIN)'
+    mkdir -p '$(GOPATH)/pkg'
+    mkdir -p '$(modulePath)'
+    shopt -s extglob
+    shopt -s dotglob
+    mv !(gopath) '$(modulePath)'
+    echo '##vso[task.prependpath]$(GOBIN)'
+    echo '##vso[task.prependpath]$(GOROOT)/bin'
+  displayName: 'Set up the Go workspace'
 
-  - bash: |
-      go version
-      go get -v -t -d ./...
-      if [ -f Gopkg.toml ]; then
-          curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-          dep ensure
-      fi
-    workingDirectory: '$(modulePath)'
-    displayName: 'Get dependencies'
+- bash: |
+    go version
+    go get -v -t -d ./...
+    if [ -f Gopkg.toml ]; then
+        curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+        dep ensure
+    fi
+  workingDirectory: '$(modulePath)'
+  displayName: 'Get dependencies'
 
-  - bash: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
-    workingDirectory: '$(modulePath)'
-    displayName: 'Run tests'
-    env:
-      GO111MODULE: on
+- bash: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
+  workingDirectory: '$(modulePath)'
+  displayName: 'Run tests'
 
-  - script: bash <(curl https://codecov.io/bash)
-    condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
-    workingDirectory: '$(modulePath)'
-    displayName: 'codecov'
+- script: bash <(curl https://codecov.io/bash)
+  condition: and(succeeded(), eq(variables['Agent.OS'], 'Linux'))
+  workingDirectory: '$(modulePath)'
+  displayName: 'codecov'
