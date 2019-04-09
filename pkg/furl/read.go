@@ -57,6 +57,9 @@ func isDriveLetter(drive string) bool {
 		return false
 	}
 	r := []rune(drive)
+	if len(r) != 1 {
+		return false
+	}
 	return unicode.IsLetter(r[0])
 }
 
