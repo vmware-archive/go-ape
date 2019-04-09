@@ -17,10 +17,11 @@
 package furl_test
 
 import (
+	"os"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pivotal/go-ape/pkg/furl"
-	"os"
 )
 
 var _ = Describe("StartsWithHomeDirAsTilde", func() {
