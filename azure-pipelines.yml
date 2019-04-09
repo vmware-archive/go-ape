@@ -17,6 +17,7 @@ strategy:
       imageName: 'macos-10.13'
     windows:
       imageName: 'vs2017-win2016'
+
 pool:
   vmImage: $(imageName)
 
@@ -24,6 +25,7 @@ steps:
 - task: GoTool@0
   inputs:
     version: 1.12
+
 - bash: |
     mkdir -p '$(GOBIN)'
     mkdir -p '$(GOPATH)/pkg'
