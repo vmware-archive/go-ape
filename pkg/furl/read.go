@@ -53,10 +53,13 @@ func readAbsFile(file string) ([]byte, error) {
 }
 
 func isDriveLetter(drive string) bool {
-	if len(drive) != 1 {
+	if runtime.GOOS != "windows" {
 		return false
 	}
 	r := []rune(drive)
+	if len(r) != 1 {
+		return false
+	}
 	return unicode.IsLetter(r[0])
 }
 
