@@ -32,11 +32,13 @@ Here filePath can be a path on the local file system (unix OR windows) or a URL.
 
 
 ## Copy
-You can also copy files/folders using:
+You can also copy files or directories using:
 ```
-checker := filecopy.NewChecker()
-copier := filecopy.NewCopier(os.Stdout, checker)
-copier.Copy(outputDir, inputDir)
+filecopy.Copy(outputPath, inputPath)
 ```
 
-Please see [godoc](https://godoc.org/github.com/pivotal/go-ape) for complete reference.
+Please see the [godoc](https://godoc.org/github.com/pivotal/go-ape) for more information.
+
+# Alternatives
+
+https://github.com/otiai10/copy copies files and directories, but incompatibly to go-ape (replacing the implementation here with otiai10/copy caused numerous test failures).
