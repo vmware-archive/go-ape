@@ -59,6 +59,22 @@ type copier struct {
 	checker Checker
 }
 
+/*
+	Copy copies a source file to a destination file. File contents are copied. File mode and permissions
+	(as described in http://golang.org/pkg/os/#FileMode) are copied.
+
+	Directories are copied, along with their contents.
+
+	Copying a file or directory to itself succeeds but does not modify the filesystem.
+
+	Symbolic links are not followed and are copied provided they refer to a file or directory being copied
+	(otherwise a non-nil error is returned). The only exception is copying a symbolic link to itself, which
+	always succeeds.
+*/
+func Copy(destPath string, srcPath string) error {
+	return NewCopier(os.Stdout, NewChecker()).Copy(destPath, srcPath)
+}
+
 func NewCopier(log io.Writer, checker Checker) *copier {
 	return &copier{
 		log:     log,

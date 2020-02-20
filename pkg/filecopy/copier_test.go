@@ -17,13 +17,14 @@
 package filecopy_test
 
 import (
+	"io/ioutil"
+	"os"
+	"path/filepath"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/pivotal/go-ape/pkg/filecopy"
 	"github.com/pivotal/go-ape/pkg/test_support"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 )
 
 var _ = Describe("Copier", func() {
@@ -345,10 +346,10 @@ var _ = Describe("Copier", func() {
 			Context("when source and target are the same symbolic link", func() {
 				BeforeEach(func() {
 					/*
-					   Create a directory structure inside tempDir like this:
+						   Create a directory structure inside tempDir like this:
 
-						src.file <---+
-						source ------+
+							src.file <---+
+							source ------+
 
 					*/
 					linkTarget := test_support.CreateFile(tempDir, "src.file")
@@ -403,6 +404,41 @@ var _ = Describe("Copier", func() {
 			checkDirectory(resultantDir)
 			checkFile(filepath.Join(resultantDir, "file1"), "test contents")
 			checkFile(filepath.Join(resultantDir, "file2"), "test contents")
+		})
+	})
+})
+
+var _ = Describe("Copy", func() {
+	var (
+		tempDir          string
+		source           string
+		target           string
+		err              error
+	)
+
+	BeforeEach(func() {
+		tempDir = test_support.CreateTempDir()
+	})
+
+	JustBeforeEach(func() {
+		err = filecopy.Copy(target, source)
+	})
+
+	AfterEach(func() {
+		test_support.CleanupDirs(GinkgoT(), tempDir)
+	})
+
+	Context("when the source is a file", func() {
+		BeforeEach(func() {
+			source = test_support.CreateFile(tempDir, "src.file")
+			target = filepath.Join(tempDir, "target.file")
+		})
+
+		// One test is sufficient to exercise the unique code for the Copy convenience function.
+		It("should copy the file", func() {
+			Expect(err).NotTo(HaveOccurred())
+
+			checkFile(target, "test contents")
 		})
 	})
 })
