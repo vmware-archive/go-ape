@@ -32,7 +32,7 @@ Here filePath can be a path on the local file system (unix OR windows) or a URL.
 
 
 ## Copy
-You can also copy files or directories using:
+You can copy files or directories using:
 ```
 filecopy.Copy(outputPath, inputPath)
 ```
