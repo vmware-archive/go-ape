@@ -19,6 +19,7 @@ package filecopy
 import (
 	"fmt"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -72,7 +73,7 @@ type copier struct {
 	always succeeds.
 */
 func Copy(destPath string, srcPath string) error {
-	return NewCopier(os.Stdout, NewChecker()).Copy(destPath, srcPath)
+	return NewCopier(ioutil.Discard, NewChecker()).Copy(destPath, srcPath)
 }
 
 func NewCopier(log io.Writer, checker Checker) *copier {
